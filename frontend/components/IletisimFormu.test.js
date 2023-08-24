@@ -43,6 +43,19 @@ test("kullanıcı inputları doldurmadığında ÜÇ hata mesajı render ediliyo
 
 test("kullanıcı doğru ad ve soyad girdiğinde ama email girmediğinde BİR hata mesajı render ediliyor.", async () => {
   render(<IletisimFormu />);
+  const myName = screen.getByPlaceholderText(/İlhan/i);
+  userEvent.type(myName[0], "Battal");
+
+  const mySurname = screen.getByPlaceholderText(/Mansız/i);
+  userEvent.type(mySurname[0], "Arvas");
+
+  const butonn = screen.getByText(/gönder/i);
+  userEvent.click(butonn);
+
+  const errorMail = screen.getByText(
+    /Hata: email geçerli bir email adresi olmalıdır./i
+  );
+  expect(errorMail).toBeVisible();
 });
 
 test('geçersiz bir mail girildiğinde "email geçerli bir email adresi olmalıdır." hata mesajı render ediliyor', async () => {
