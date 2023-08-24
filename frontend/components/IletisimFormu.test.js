@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { getByText, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
 import IletisimFormu from "./IletisimFormu";
@@ -16,11 +16,29 @@ test("iletişim formu headerı render ediliyor", () => {
 
 test("kullanıcı adını 5 karakterden az girdiğinde BİR hata mesajı render ediyor.", async () => {
   render(<IletisimFormu />);
-  //?
+  const isim = screen.getAllByPlaceholderText("İlhan");
+  userEvent.type(isim[0], "abcd");
+  const errorMessage = screen.getByText(
+    /Hata: ad en az 5 karakter olmalıdır./i
+  );
+  expect(errorMessage).toBeVisible();
+
+  userEvent.type(isim[0], "e");
+  expect(errorMessage).not.toBeVisible();
 });
 
 test("kullanıcı inputları doldurmadığında ÜÇ hata mesajı render ediliyor.", async () => {
   render(<IletisimFormu />);
+  const buton = screen.getByText(/GÖNDER/i);
+  userEvent.click(buton);
+  const errorAd = screen.getByText(/Hata: ad en az 5 karakter olmalıdır./i);
+  const errorSoyAd = screen.getByText(/Hata: soyad gereklidir./i);
+  const errorEmail = screen.getByText(
+    /Hata: email geçerli bir email adresi olmalıdır./i
+  );
+  expect(errorAd).toBeVisible();
+  expect(errorSoyAd).toBeVisible();
+  expect(errorEmail).toBeVisible();
 });
 
 test("kullanıcı doğru ad ve soyad girdiğinde ama email girmediğinde BİR hata mesajı render ediliyor.", async () => {

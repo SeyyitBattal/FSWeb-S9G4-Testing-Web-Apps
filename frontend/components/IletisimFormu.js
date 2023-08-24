@@ -82,6 +82,7 @@ const IletisimFormu = () => {
             value={form.ad}
             id="ad"
             placeholder="İlhan"
+            data-testid="name-input"
             required
           />
           {errors.ad && <p data-testid="error">Hata: {errors.ad}</p>}
@@ -95,6 +96,7 @@ const IletisimFormu = () => {
             name="soyad"
             value={form.soyad}
             placeholder="Mansız"
+            data-testid="surname-input"
             required
           />
           {errors.soyad && <p data-testid="error">Hata: {errors.soyad}</p>}
@@ -108,6 +110,7 @@ const IletisimFormu = () => {
             name="email"
             value={form.email}
             placeholder="yüzyılıngolcüsü@hotmail.com"
+            data-testid="email-input"
             required
           />
           {errors.email && <p data-testid="error">Hata: {errors.email}</p>}
@@ -120,6 +123,7 @@ const IletisimFormu = () => {
             name="mesaj"
             id="mesaj"
             value={form.mesaj}
+            data-testid="message-input"
           />
           {errors.mesaj && <p data-testid="error">Error: {errors.mesaj}</p>}
         </div>
