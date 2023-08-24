@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import Goruntule from './Goruntule';
+import Goruntule from "./Goruntule";
 
 const formData = {
   ad: "",
   soyad: "",
   email: "",
-  mesaj: ""
+  mesaj: "",
 };
 
 const errorData = {
   ad: "",
   soyad: "",
   email: "",
-  mesaj: ""
+  mesaj: "",
 };
 
 const IletisimFormu = () => {
@@ -34,20 +34,22 @@ const IletisimFormu = () => {
     return "";
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const submitErrors = {};
-    Object.keys(errors).forEach(field => {
+    Object.keys(errors).forEach((field) => {
       submitErrors[field] = errorHandling(field, form[field]);
     });
 
     setErrors(submitErrors);
 
-    const hasErrors = (submitErrors.ad === "" && submitErrors.soyad === "" && submitErrors.email === "" && submitErrors.mesaj === "");
+    const hasErrors =
+      submitErrors.ad === "" &&
+      submitErrors.soyad === "" &&
+      submitErrors.email === "" &&
+      submitErrors.mesaj === "";
     setDisplayData(hasErrors);
-
   };
 
   const handleChange = (e) => {
@@ -59,12 +61,12 @@ const IletisimFormu = () => {
 
     setErrors({
       ...errors,
-      [e.target.name]: errorMessage
+      [e.target.name]: errorMessage,
     });
 
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -80,8 +82,9 @@ const IletisimFormu = () => {
             value={form.ad}
             id="ad"
             placeholder="İlhan"
+            required
           />
-          {(errors.ad) && <p data-testid="error">Hata: {errors.ad}</p>}
+          {errors.ad && <p data-testid="error">Hata: {errors.ad}</p>}
         </div>
 
         <div>
@@ -92,8 +95,9 @@ const IletisimFormu = () => {
             name="soyad"
             value={form.soyad}
             placeholder="Mansız"
+            required
           />
-          {(errors.soyad) && <p data-testid="error">Hata: {errors.soyad}</p>}
+          {errors.soyad && <p data-testid="error">Hata: {errors.soyad}</p>}
         </div>
 
         <div>
@@ -104,8 +108,9 @@ const IletisimFormu = () => {
             name="email"
             value={form.email}
             placeholder="yüzyılıngolcüsü@hotmail.com"
+            required
           />
-          {(errors.email) && <p data-testid="error">Hata: {errors.email}</p>}
+          {errors.email && <p data-testid="error">Hata: {errors.email}</p>}
         </div>
 
         <div>
@@ -116,10 +121,10 @@ const IletisimFormu = () => {
             id="mesaj"
             value={form.mesaj}
           />
-          {(errors.mesaj) && <p data-testid="error">Error: {errors.mesaj}</p>}
+          {errors.mesaj && <p data-testid="error">Error: {errors.mesaj}</p>}
         </div>
 
-        {displayData && <Goruntule form={form}/>}
+        {displayData && <Goruntule form={form} />}
 
         <button>Gönder</button>
       </form>
