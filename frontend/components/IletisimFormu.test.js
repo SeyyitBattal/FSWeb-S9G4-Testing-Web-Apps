@@ -60,14 +60,50 @@ test("kullanıcı doğru ad ve soyad girdiğinde ama email girmediğinde BİR ha
 
 test('geçersiz bir mail girildiğinde "email geçerli bir email adresi olmalıdır." hata mesajı render ediliyor', async () => {
   render(<IletisimFormu />);
+  const mail = screen.getByPlaceholderText(/yüzyılıngolcüsü@hotmail.com/i);
+  userEvent.type(mail, "Battal");
+
+  const errorMessageEmail = screen.getByText(
+    /Hata: email geçerli bir email adresi olmalıdır./i
+  );
+
+  expect(errorMessageEmail).toBeInTheDocument();
 });
 
 test('soyad girilmeden gönderilirse "soyad gereklidir." mesajı render ediliyor', async () => {
   render(<IletisimFormu />);
+  const isim = screen.getByPlaceholderText(/İlhan/i);
+  userEvent.type(isim, "Battal");
+
+  const mail = screen.getByPlaceholderText(/yüzyılıngolcüsü@hotmail.com/i);
+  userEvent.type(mail, "battalarvas@gmail.com");
+
+  const buton = screen.getByText(/gönder/i);
+
+  userEvent.click(buton);
+
+  const errorMessageEmail = screen.getByText(/Hata: soyad gereklidir./i);
+
+  expect(errorMessageEmail).toBeInTheDocument();
 });
 
 test("ad,soyad, email render ediliyor. mesaj bölümü doldurulmadığında hata mesajı render edilmiyor.", async () => {
   render(<IletisimFormu />);
+  const isim = screen.getByPlaceholderText(/İlhan/i);
+  userEvent.type(isim, "Battal");
+
+  const soyİsim = screen.getByPlaceholderText("Mansız");
+  userEvent.type(soyİsim, "Arvas");
+
+  const mail = screen.getByPlaceholderText(/yüzyılıngolcüsü@hotmail.com/i);
+  userEvent.type(mail, "battalarvas@gmail.com");
+
+  const buton = screen.getByText(/gönder/i);
+
+  userEvent.click(buton);
+
+  const errorMessage = screen.queryAllByTestId("error");
+  expect(errorMessage).toHaveLength(0);
 });
 
 test("form gönderildiğinde girilen tüm değerler render ediliyor.", async () => {
